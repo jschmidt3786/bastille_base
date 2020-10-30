@@ -19,15 +19,11 @@
 # LOG 	path 	/var/log/nginx/access.log
 ####################################################################################
 
-PRE /bin/mkdir -p /usr/local/etc/openvpn
-
 # Install needed packages
 PKG autossh bash bash-completion ccze colordiff curl htop mc nmap openvpn sshpass sudo tmux tree vim-console wget
 
-OVERLAY root usr
-
 #Start needed services at boot time
-SYSRC openvpn_zenith_enable=YES
+#SYSRC openvpn_zenith_enable=YES
 
 # Start the service immediately
 #SERVICE openvpn_zenith start
