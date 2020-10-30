@@ -1,27 +1,20 @@
 ## Status
 
-## kapacitor
-Bastille Template to add a kapacitor server to a Jail
+## Base Template
+Bastille Template to add a base set of packages, etc.
 
 ## Bootstrap
 
 ```shell
-bastille bootstrap https://github.com/jschmidt3786/kapacitor
+bastille bootstrap https://github.com/jschmidt3786/bastille_base
 ```
 
 ## Usage
 
 ```shell
-bastille template TARGET jschmidt3786/kapacitor
+bastille template TARGET jschmidt3786/bastille_base
 ```
 
 ## Post Install
 
-Go to the following page and configure kapacitor for your environment:
-
-  https://www.influxdata.com/time-series-platform/kapacitor/
-
-One may also want to install influxdb and telegraf as well:
-
-  https://gitlab.com/bastillebsd-templates/influxdb
-  https://gitlab.com/bastillebsd-templates/telegraf
+Populate the openvpn config, and (optionally) set up auto login via login.conf
