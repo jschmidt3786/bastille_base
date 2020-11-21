@@ -20,7 +20,7 @@
 ####################################################################################
 
 # Install needed packages
-PKG bash bash-completion ccze colordiff curl htop mc nmap sudo tmux tree vim-console wget
+PKG bash bash-completion ccze colordiff htop mc sudo tree vim-console
 
 #Start needed services at boot time
 #SYSRC openvpn_zenith_enable=YES
