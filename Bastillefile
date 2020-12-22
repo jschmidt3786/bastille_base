@@ -28,4 +28,5 @@ PKG bash bash-completion ccze colordiff htop mc sudo tree vim-console
 # Start the service immediately
 #SERVICE openvpn_zenith start
 
-CMD /usr/bin/chsh -s /usr/local/bin/bash
+#CMD /usr/bin/chsh -s /usr/local/bin/bash
+CMD /bin/sh /root/bootstrap.sh
