@@ -1,31 +1,22 @@
 # base setup Bastille Jail Template
-# version 0.1.0  2020-10-29
+# version 0.3.0  2021-1-20
 
-# SUPPORTED 	format 	example
-# ---------------------------
-# LIMITS 	resource value 	memoryuse 1G
-# INCLUDE 	template path/URL 	http?://TEMPLATE_URL or username/base-template
-# PRE 	/bin/sh command 	mkdir -p /usr/local/path
-# FSTAB 	fstab syntax 	/host/path container/path nullfs ro 0 0
-# PKG 	port/pkg name(s) 	vim-console zsh git-lite tree htop
-# OVERLAY 	paths (one/line) 	etc usr
-# SYSRC 	sysrc command(s) 	nginx_enable=YES
-# SERVICE 	service command(s) 	nginx restart
-# CMD 	/bin/sh command 	/usr/bin/chsh -s /usr/local/bin/zsh
-#
-# PLANNED 	format 	example
-# -------------------------
-# RDR 	pf rdr entry 	rdr pass inet proto tcp from any to any port 80 -> 10.17.89.80
-# LOG 	path 	/var/log/nginx/access.log
-####################################################################################
+# prep the pkg repo to use latest vs. quarterly
+# also has my bash-isms, sudoers, and a tiny .vimrc
+CP usr /
 
 # Install needed packages
 PKG bash bash-completion ccze colordiff htop mc sudo tree vim-console
+CMD pw useradd jschmidt -u 3786 -c Jeff -g jschmidt -s /usr/local/bin/bash -G wheel,operator,staff,dialer
+CMD chpass -p $6$UbmHKE3iQwlzyueB$kwI6KjDknM0acFJZT1q3SDMG7MUT4C1sehysQRRtQIeoLTdZ3dVfpC1a/9w3O4/GvkcOJas5zxNHxiTxpjN8a1 jschmidt
 
-#Start needed services at boot time
-#SYSRC openvpn_zenith_enable=YES
-
-# Start the service immediately
-#SERVICE openvpn_zenith start
-
+# just too old to learn a new shell...
+CP root /
 CMD /usr/bin/chsh -s /usr/local/bin/bash
+
+# sshd almost never hurt anyone
+CP etc /
+SYSRC sshd_enable=YES
+SERVICE sshd start
+#RDR 22${JAIL_IP} 22
+RDR 2299 22
