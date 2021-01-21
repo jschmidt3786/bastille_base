@@ -7,16 +7,17 @@ CP usr /
 
 # Install needed packages
 PKG bash bash-completion ccze colordiff htop mc sudo tree vim-console
-CMD pw useradd jschmidt -u 3786 -c Jeff -g jschmidt -s /usr/local/bin/bash -G wheel,operator,staff,dialer
-CMD chpass -p $6$UbmHKE3iQwlzyueB$kwI6KjDknM0acFJZT1q3SDMG7MUT4C1sehysQRRtQIeoLTdZ3dVfpC1a/9w3O4/GvkcOJas5zxNHxiTxpjN8a1 jschmidt
 
 # just too old to learn a new shell...
 CP root /
 CMD /usr/bin/chsh -s /usr/local/bin/bash
 
+#CMD pw groupadd -n jschmidt -g 3786
+#CMD pw useradd jschmidt -u 3786 -c Jeff -g jschmidt -s /usr/local/bin/bash -G wheel,operator,staff,dialer -m
+#CP home /
+
 # sshd almost never hurt anyone
-CP etc /
-SYSRC sshd_enable=YES
-SERVICE sshd start
-#RDR 22${JAIL_IP} 22
-RDR 2299 22
+#CP etc /
+#SYSRC sshd_enable=YES
+#SERVICE sshd start
+#RDR tcp 22${JAIL_IP} 22
