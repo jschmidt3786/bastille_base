@@ -5,19 +5,32 @@
 # also has my bash-isms, sudoers, and a tiny .vimrc
 CP usr /
 
-# Install needed packages
-PKG bash bash-completion ccze colordiff htop mc sudo tree vim-console
+# stop d/l packages every time during development
+#CP var /
+
+# Install some useful stuff
+#PKG bash bash-completion ccze colordiff htop mc pam_ssh_agent_auth sudo tree vim-console
+PKG bash bash-completion ccze colordiff htop mc tree vim-console
 
 # just too old to learn a new shell...
 CP root /
 CMD /usr/bin/chsh -s /usr/local/bin/bash
 
-#CMD pw groupadd -n jschmidt -g 3786
-#CMD pw useradd jschmidt -u 3786 -c Jeff -g jschmidt -s /usr/local/bin/bash -G wheel,operator,staff,dialer -m
-#CP home /
+# add me
+CMD pw groupadd -n jschmidt -g 3786
+CMD pw useradd jschmidt -u 3786 -c Jeff -g jschmidt -s /usr/local/bin/bash -G wheel,operator,staff,dialer -m
+CP home /
 
 # sshd almost never hurt anyone
-#CP etc /
-#SYSRC sshd_enable=YES
-#SERVICE sshd start
-#RDR tcp 22${JAIL_IP} 22
+CP etc /
+SYSRC sshd_enable=YES
+SYSRC sshd_flags=""
+SERVICE sshd start
+RDR tcp 22"$(echo "${JAIL_IP}" | awk -F. '{print $NF}')" 22
+
+# mail alias for root, /etc/hosts
+CMD sed -i'' s/#\ root:/root:\ jschmidt/ /etc/mail/aliases
+CMD newaliases
+
+# add /etc/hosts entry
+CMD echo "${JAIL_IP}" $(hostname) $(hostname -s) |tee -a /etc/hosts

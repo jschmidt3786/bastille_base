@@ -1,0 +1,87 @@
+[user]
+  name          = Jeff Schmidt
+  email         = jeff.schmidt@lge.com
+
+[core]
+  editor        = vim
+  #pager         = less -+F -+X
+  pager         = less -iXFR
+  quotepath     = false
+  excludesfile  = /home/jschmidt/.gitignore
+
+[color]
+  ui            = auto
+  interactive   = auto
+  diff          = auto
+
+[merge]
+  tool          = extMerge
+
+[mergetool "extMerge"]
+  cmd           = extMerge "$BASE" "$LOCAL" "$REMOTE" "$MERGED"
+
+[mergetool]
+  trustExitCode = false
+
+[diff]
+  #external      = extDiff
+[alias]
+  a             = !git add . && git status
+  ac            = !git add . && git commit
+  acm           = !git add . && git commit -m
+  alias         = !git config --list | grep 'alias\\.' | sed 's/alias\\.\\([^=]*\\)=\\(.*\\)/\\1\\\t => \\2/' | sort
+  br            = branch
+  bruse         = !git branch --sort="-committerdate" --format="%(color:green)%(committerdate:relative)%(color:reset) %(refname:short)" # no worky
+  ci            = commit
+  co            = checkout
+  cm            = commit -m
+  #df            = !git --no-pager diff --color-words
+  #dfh           = !git --no-pager diff --color-words head
+  df            = !git diff --color-words --color-moved --no-prefix
+  dfh           = !git diff --color-words --color-moved head
+  dff           = !git --no-pager diff
+  #l             = log --abbrev-commit --decorate --graph --pretty=format:'%C(yellow)%h%C(cyan)%d%Creset %s %C(white)- %an, %ar%Creset'
+  l             = log --abbrev-commit --pretty=format:'%C(yellow)%h%C(cyan)%d%Creset %s %C(white)- %an, %ar%Creset'
+  last          = log --abbrev-commit --decorate --stat -1 HEAD
+  lb            = !git reflog show --pretty=format:'%gs ~ %gd' --date=relative | grep 'checkout:' | grep -oE '[^ ]+ ~ .*' | awk -F~ '!seen[$1]++' | head -n 10 | awk -F' ~ HEAD@{' '{printf(\"  \\033[33m%s: \\033[37m %s\\033[0m\\n\", substr($2, 1, length($2)-1), $1)}'
+  #lg            = log --abbrev-commit --decorate --date=relative --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
+  lg            = log --abbrev-commit --decorate --graph --pretty=oneline --stat
+  ll            = log --abbrev-commit --decorate --graph --stat --all
+  lol           = log --abbrev-commit --decorate --pretty=oneline
+  lola          = log --abbrev-commit --decorate --pretty=oneline --all
+  lola          = log --abbrev-commit --decorate --graph --pretty=oneline --all
+  lols          = log --abbrev-commit --decorate --pretty=oneline --stat --all
+  lt            = log --abbrev-commit --decorate --pretty=format:'%C(cyan)%h%C(yellow) %ci%Creset %cE%n%s%n'
+  noz           = log --abbrev-commit --decorate --graph --pretty=format:'%C(yellow)%h%C(cyan)%d%Creset %s %C(white)- %an, %ar%Creset' --perl-regexp --author='^((?!Zenith).*)$'
+  ls            = ls-files
+  master        = checkout master
+  patch         = log --abbrev-commit --decorate --pretty=oneline --stat --all -p
+  pp            = !git pull && git push
+  rem           = remote -v
+  st            = status
+  unstage       = reset HEAD --
+  fire          = git alias add . && git commit && git push
+  #visual        = !Git
+
+[push]
+  default = matching
+
+[pull]
+  rebase = true
+
+[filter "lfs"]
+  required = true
+  clean = git-lfs clean -- %f
+  smudge = git-lfs smudge -- %f
+  process = git-lfs filter-process
+
+[cola]
+  spellcheck = false
+
+[commit]
+  template = /home/jschmidt/.gitmessage
+
+[gitflow "init"]
+	defaults = yes
+[gitflow "feature.finish"]
+	rebase = yes
