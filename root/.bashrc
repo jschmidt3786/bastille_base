@@ -31,7 +31,7 @@ alias vi='/usr/local/bin/vim'
 
 case "$TERM" in
   xterm-*)
-    PROMPT_COMMAND="printf '\033k$(hostname)\033\\';"${PROMPT_COMMAND}
+    PROMPT_COMMAND="printf '\033k$(hostname -s)\033\\';"${PROMPT_COMMAND}
     ;;
 esac
 
