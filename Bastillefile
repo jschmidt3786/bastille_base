@@ -1,31 +1,36 @@
 # base setup Bastille Jail Template
-# version 0.1.0  2020-10-29
 
-# SUPPORTED 	format 	example
-# ---------------------------
-# LIMITS 	resource value 	memoryuse 1G
-# INCLUDE 	template path/URL 	http?://TEMPLATE_URL or username/base-template
-# PRE 	/bin/sh command 	mkdir -p /usr/local/path
-# FSTAB 	fstab syntax 	/host/path container/path nullfs ro 0 0
-# PKG 	port/pkg name(s) 	vim-console zsh git-lite tree htop
-# OVERLAY 	paths (one/line) 	etc usr
-# SYSRC 	sysrc command(s) 	nginx_enable=YES
-# SERVICE 	service command(s) 	nginx restart
-# CMD 	/bin/sh command 	/usr/bin/chsh -s /usr/local/bin/zsh
-#
-# PLANNED 	format 	example
-# -------------------------
-# RDR 	pf rdr entry 	rdr pass inet proto tcp from any to any port 80 -> 10.17.89.80
-# LOG 	path 	/var/log/nginx/access.log
-####################################################################################
+# prep the pkg repo to use latest vs. quarterly
+# also has my bash-isms, sudoers, and a tiny .vimrc
+CP usr /
+CMD chown -vR root:wheel /usr/local/etc/pam.d /usr/local/etc/pkg* /usr/local/etc/sudoers.d
+CMD cat /usr/local/etc/ssl/certs/linuxi86_root_ca.crt >> /usr/local/etc/ssl/cert.pem
 
-# Install needed packages
-PKG autossh bash bash-completion ccze colordiff curl htop mc nmap openvpn sshpass sudo tmux tree vim-console wget
+# Install some useful stuff
+PKG bash bash-completion ccze colordiff htop mc pam_ssh_agent_auth sudo tree vim-console
 
-#Start needed services at boot time
-#SYSRC openvpn_zenith_enable=YES
-
-# Start the service immediately
-#SERVICE openvpn_zenith start
-
+# just too old to learn a new shell...
+CP root /
+CMD chown -vR root:wheel /root
 CMD /usr/bin/chsh -s /usr/local/bin/bash
+
+# add me
+CMD pw groupadd -n jschmidt -g 3786
+CMD pw useradd jschmidt -u 3786 -c Jeff -g jschmidt -s /usr/local/bin/bash -G wheel,operator,staff,dialer -m
+CP home /
+CMD chown -vR jschmidt:jschmidt /home/jschmidt
+
+# sshd almost never hurt anyone
+CP etc /
+CMD chown -vR root:wheel /etc/ssh
+SYSRC sshd_enable=YES
+SYSRC sshd_flags="-4"
+SERVICE sshd start
+RDR tcp 22"$(echo "${JAIL_IP}" | awk -F. '{print $NF}')" 22
+
+# mail alias for root, /etc/hosts
+CMD sed -i '' s/#\ root:.*/root:\ jschmidt/ /etc/mail/aliases
+CMD newaliases
+
+# add /etc/hosts entry
+CMD echo "${JAIL_IP}" $(hostname) $(hostname -s) |tee -a /etc/hosts

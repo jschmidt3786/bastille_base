@@ -14,7 +14,3 @@ bastille bootstrap https://github.com/jschmidt3786/bastille_base
 ```shell
 bastille template TARGET jschmidt3786/bastille_base
 ```
-
-## Post Install
-
-Populate the openvpn config, and (optionally) set up auto login via login.conf

@@ -21,15 +21,17 @@ alias la='ll -A'
 alias lf='ls -lAFhrt'
 alias lS='ls -lAFhrS'
 alias ll='ls -l'
-alias ls='ls --color=auto'
+alias ls='ls --color=auto -F'
 alias mv='mv -v'
 #alias ps='ps opid,uid,user,tty,cmd'
 #alias ps='ps -o user,pid,%cpu,%mem,vsz,rss,tty,stat,start,time,command'
 alias rm='rm -v'
 alias s='sudo -i'
+alias vi='/usr/local/bin/vim'
+
 case "$TERM" in
   xterm-*)
-    PROMPT_COMMAND="printf '\033k$(hostname)\033\\';"${PROMPT_COMMAND}
+    PROMPT_COMMAND="printf '\033k$(hostname -s)\033\\';"${PROMPT_COMMAND}
     ;;
 esac
 
