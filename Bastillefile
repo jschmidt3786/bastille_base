@@ -1,5 +1,4 @@
 # base setup Bastille Jail Template
-# version 0.3.0  2021-1-20
 
 # prep the pkg repo to use latest vs. quarterly
 # also has my bash-isms, sudoers, and a tiny .vimrc
