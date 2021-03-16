@@ -7,7 +7,7 @@ CMD chown -vR root:wheel /usr/local/etc/pam.d /usr/local/etc/pkg* /usr/local/etc
 CMD cat /usr/local/etc/ssl/certs/linuxi86_root_ca.crt >> /usr/local/etc/ssl/cert.pem
 
 # Install some useful stuff
-PKG bash bash-completion ccze colordiff htop mc pam_ssh_agent_auth sudo tree vim-console
+PKG bash bash-completion ccze colordiff htop mc ncdu pam_ssh_agent_auth sudo tree vim-console
 
 # just too old to learn a new shell...
 CP root /
