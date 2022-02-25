@@ -1,3 +1,0 @@
-#%wheel ALL=(ALL) NOPASSWD: ALL
-# new-n-improved?
-%wheel ALL=(ALL) ALL
